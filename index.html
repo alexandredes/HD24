@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <title></title>
+  <style type="text/css">
+    * {
+      -webkit-font-smoothing: antialiased;
+    }
+    html, body {
+      padding:20px 30px;
+      margin:0;
+    }
+    body {
+      background: #000;
+      color:#fff;
+      font-size:15vw;
+      text-align: right;
+      line-height: 1;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+    }
+    div {
+      position: relative;
+    }
+    .price:before {
+      content:"$";
+    }
+    .price:after {
+      content: attr(data-compare);
+      display: inline;
+      color:#999;
+      text-decoration: line-through;
+      margin-left:40px;
+      font-size:10vw;
+      font-weight:400;
+    }
+    span {
+      color:#fff;
+    }
+    .inventory {
+      display: none;
+    }
+
+    .overlay {
+      position: fixed;
+      top:0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="price"><span>30.00</span></div>
+  <div class="inventory">Out of stock</div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+
+  <script>
+    var app = {};
+
+    var socket = io();
+
+    app.mode = "price";
+
+    socket.on('product_update', function(body){
+      app.price = body.variants[0].price;
+      app.compare_at_price = body.variants[0].compare_at_price;
+      if (app.compare_at_price == null) {
+        $('.price').removeAttr('data-compare');
+      } else {
+        $('.price').attr('data-compare', formatMoney(app.compare_at_price));
+      }
+      $('.price').html(formatMoney(app.price));
+      console.log(body);
+
+
+      app.inventory_quantity = body.variants[0].inventory_quantity;
+
+      if (app.inventory_quantity > 10) {
+        $('.inventory').html('In stock');
+      } else if (app.inventory_quantity > 1) {
+        $('.inventory').html('Only '+ app.inventory_quantity +' left');
+      } else {
+        $('.inventory').html('Out of stock');
+      }
+    });
+
+    socket.on('purchase', function(body){
+      console.log(body);
+    });
+
+    socket.on('api', function(res){
+      console.log(res.body);
+    });
+
+    $('.overlay').on('click touchstart', function() {
+      toggleMode();
+    });
+
+    var formatMoney = function(n, c, d, t) {
+      var c = isNaN(c = Math.abs(c)) ? 2 : c,
+        d = d == undefined ? "." : d,
+        t = t == undefined ? "," : t,
+        s = n < 0 ? "-" : "",
+        i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+        j = (j = i.length) > 3 ? j % 3 : 0;
+
+      return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    };
+
+    var changePrice = function(newPrice) {
+      $('.price span').fadeOut(500, function() {
+        $('.price span').html(newPrice);
+        $('.price span').delay(50).fadeIn(500);
+      });
+    }
+
+    var toggleMode = function() {
+      if (app.mode == 'price') {
+        app.mode = 'inventory';
+        $('.inventory').delay(550).fadeIn(500);
+        $('.price').fadeOut(500);
+      } else {
+        app.mode = 'price';
+        $('.inventory').fadeOut(500);
+        $('.price').delay(550).fadeIn(500);
+      }
+    }
+  </script>
+</body>
+</html>
