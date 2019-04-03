@@ -38,6 +38,9 @@
       font-size:60px;
       font-weight:400;
     }
+    .price[data-compare=""]:after {
+      margin-left:0;
+    }
     span {
       color:#fff;
     }
@@ -77,7 +80,7 @@
       app.price = body.variants[0].price;
       app.compare_at_price = body.variants[0].compare_at_price;
       if (app.compare_at_price == null) {
-        $('.price').removeAttr('data-compare');
+        $('.price').attr('data-compare', '');
       } else {
         $('.price').attr('data-compare', formatMoney(app.compare_at_price));
       }
