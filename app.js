@@ -5,6 +5,7 @@ const app = express().use(bodyParser.json());
 const path = require('path');
 const router = express.Router();
 
+
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
@@ -50,6 +51,7 @@ app.post('messages', (req, res) => {
 
 //add the router
 app.use('/', router);
+app.use("/public", express.static(__dirname + "/public"));
 
 http.listen(process.env.PORT || 3000);
 
