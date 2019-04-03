@@ -25,6 +25,10 @@ router.get('/',function(req,res){
   res.sendFile(path.join(__dirname+'/index.html'));
 });
 
+router.get('/scan',function(req,res){
+  res.sendFile(path.join(__dirname+'/scan.html'));
+});
+
 router.post('/product_update',function(req,res){
   io.emit('product_update', req.body);
   res.status(200);
