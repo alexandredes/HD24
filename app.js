@@ -15,12 +15,11 @@ io.on('connection', function(socket){
 });
 
 router.get('/',function(req,res){
-request('http://www.google.com', function (error, response, body) {
-  io.emit('api', response);
-});
-  //'/admin/products/1931036426296/variants.json';
+  var productURL = 'https://6bfd57eed404cfcbfb7c7ca4bcd8a374:920c7c6f4b911fe9d9fddd2d1a6d00a6@hackdays24price.myshopify.com/admin/products/1565418225686.json';
+  request(productURL, function (error, response, body) {
+    io.emit('initial_call', response);
+  });
   res.sendFile(path.join(__dirname+'/index.html'));
-  //__dirname : It will resolve to your project folder.
 });
 
 router.post('/product_update',function(req,res){

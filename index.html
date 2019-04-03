@@ -56,8 +56,8 @@
 </head>
 <body>
   <div class="overlay"></div>
-  <div class="price"><span>30.00</span></div>
-  <div class="inventory">Out of stock</div>
+  <div class="price"><span></span></div>
+  <div class="inventory"></div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -70,7 +70,7 @@
 
     app.mode = "price";
 
-    socket.on('product_update', function(body){
+    var updateData = function(body) {
       app.price = body.variants[0].price;
       app.compare_at_price = body.variants[0].compare_at_price;
       if (app.compare_at_price == null) {
@@ -91,14 +91,19 @@
       } else {
         $('.inventory').html('Out of stock');
       }
+    }
+
+    socket.on('product_update', function(body){
+      updateData(body);
     });
 
-    socket.on('purchase', function(body){
+    socket.on('inventory_update', function(body){
       console.log(body);
     });
 
-    socket.on('api', function(res){
-      console.log(res.body);
+    socket.on('initial_call', function(res){
+      var body = JSON.parse(res.body);
+      updateData(body.product);
     });
 
     $('.overlay').on('click touchstart', function() {
