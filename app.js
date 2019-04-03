@@ -17,9 +17,11 @@ io.on('connection', function(socket){
 
 router.get('/',function(req,res){
   var productURL = 'https://6bfd57eed404cfcbfb7c7ca4bcd8a374:920c7c6f4b911fe9d9fddd2d1a6d00a6@hackdays24price.myshopify.com/admin/products/1565418225686.json';
-  request(productURL, function (error, response, body) {
-    io.emit('initial_call', response);
-  });
+  setTimeout(function() {
+    request(productURL, function (error, response, body) {
+      io.emit('initial_call', response);
+    });
+  }, 3000);
   res.sendFile(path.join(__dirname+'/index.html'));
 });
 
