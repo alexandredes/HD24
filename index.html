@@ -23,6 +23,9 @@
     div {
       position: relative;
     }
+    .price {
+      display: none;
+    }
     .price:before {
       content:"$";
     }
@@ -104,6 +107,7 @@
     socket.on('initial_call', function(res){
       var body = JSON.parse(res.body);
       updateData(body.product);
+      $('.price').fadeIn(500);
     });
 
     $('.overlay').on('click touchstart', function() {
