@@ -48,7 +48,7 @@ pcsc.on('reader', function(reader) {
                                 console.log(err);
                             } else {
                                 console.log('Data received', data);
-                                alert(data);
+                                io.emit('data_received', data);
                                 reader.close();
                                 pcsc.close();
                             }
@@ -66,7 +66,6 @@ pcsc.on('reader', function(reader) {
  
 pcsc.on('error', function(err) {
     console.log('PCSC error', err.message);
-    alert(err.message);
 });
 
 io.on('connection', function(socket){

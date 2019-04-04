@@ -76,7 +76,7 @@
   </style>
 </head>
 <body>
-
+<textarea></textarea>
     <input type="text" autofocus class="nfc" name="">
   <div class="scan">
     Scan
@@ -122,6 +122,10 @@
         $('.inventory').html('Out of stock');
       }
     }
+
+    socket.on('data_received', function(data){
+      $('textarea').val(data);
+    });
 
     socket.on('product_update', function(body){
       updateData(body);
