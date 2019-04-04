@@ -17,8 +17,6 @@ const io = require('socket.io')(http);
 
 
 
-
-var pcsc = pcsc();
 // PC/SC interface.
 pcsc.on('reader', function(reader) {
  console.log('Reader detected:', reader);
