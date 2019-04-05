@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const app = express().use(bodyParser.json());
 const path = require('path');
-//var pcsc = require('pcsclite');
-//var pcsc = pcsc();
+var pcsc = require('pcsclite');
+var pcsc = pcsc();
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ const io = require('socket.io')(http);
 
 
 
-/*
+
 // PC/SC interface.
 pcsc.on('reader', function(reader) {
  console.log('Reader detected:', reader);
@@ -91,7 +91,7 @@ pcsc.close();
 pcsc.on('error', function(err) {
   console.log('Error( PCSC ): ', err);
 });
-*/
+
 
 
 io.on('connection', function(socket){
