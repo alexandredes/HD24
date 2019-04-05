@@ -258,6 +258,22 @@
 
     socket.on('data_received', function(data){
       $('.nfc').val(data);
+      console.log('scanning');
+      clearTimeout(window.timer);
+      $('.product').hide(0);
+      $('.scan').fadeOut(150);
+      $('.scanning').delay(200).fadeIn(150);
+      window.timer = setTimeout(function() {
+        console.log('done');
+        $('.scan, .scanning').fadeOut(150);
+        var UID = data;
+        var productId = window.tags[UID];
+        
+        $.get('/get/'+productId, function( data ) {
+        });
+
+      }, 1000);
+
     });
 
     socket.on('product_update', function(body){
@@ -325,21 +341,6 @@
      }
 
     $('.nfc').on('input change', function() {
-      console.log('scanning');
-      clearTimeout(window.timer);
-      $('.product').hide(0);
-      $('.scan').fadeOut(150);
-      $('.scanning').delay(200).fadeIn(150);
-      window.timer = setTimeout(function() {
-        console.log('done');
-        $('.scan, .scanning').fadeOut(150);
-        var UID = $('.nfc').val();
-        var productId = window.tags[UID];
-        
-        $.get('/get/'+productId, function( data ) {
-        });
-
-      }, 1000);
     })
 
     var delayedReset = function() {
