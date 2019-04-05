@@ -324,7 +324,7 @@
       '40a697ab057': '1565568434198'
      }
 
-    $('.nfc').on('input', function() {
+    $('.nfc').on('input change', function() {
       console.log('scanning');
       clearTimeout(window.timer);
       $('.product').hide(0);
