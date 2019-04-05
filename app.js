@@ -3,9 +3,8 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const app = express().use(bodyParser.json());
 const path = require('path');
-var pcsc = require('pcsclite');
-
-var pcsc = pcsc();
+//var pcsc = require('pcsclite');
+//var pcsc = pcsc();
 
 const router = express.Router();
 
@@ -16,7 +15,7 @@ const io = require('socket.io')(http);
 
 
 
-
+/*
 // PC/SC interface.
 pcsc.on('reader', function(reader) {
  console.log('Reader detected:', reader);
@@ -49,25 +48,25 @@ else if ((changes & this.SCARD_STATE_PRESENT) && (status.state & this.SCARD_STAT
     }
     else {
       console.log('Protocol(', reader.name, '):', protocol);
-/*
-Read card UID: [0xFF, 0xCA, 0x00, 0x00, 0x00]
-UID is specified in the ISO 14443 T=CL transport protocol while APDU's are specified in the ISO 7816 application layer protocol.
-"Get Data Command" is defined in PCSC 3 v2. If your driver is PCSC v2 compliant, you can get UID using it:
-Class = 0xFF
-INS = 0xCA
-P1 = 0x00
-P2 = 0x00
-Le = 0x00 (return full length: ISO14443A single 4 bytes, double 7 bytes, triple 10 bytes, for ISO14443B 4 bytes PUPI, for 15693 8 bytes UID)
-Expected response: Data+SW1SW2
-*/
+
+//Read card UID: [0xFF, 0xCA, 0x00, 0x00, 0x00]
+//UID is specified in the ISO 14443 T=CL transport protocol while APDU's are specified in the ISO 7816 application layer protocol.
+//"Get Data Command" is defined in PCSC 3 v2. If your driver is PCSC v2 compliant, you can get UID using it:
+//Class = 0xFF
+//INS = 0xCA
+//P1 = 0x00
+//P2 = 0x00
+//Le = 0x00 (return full length: ISO14443A single 4 bytes, double 7 bytes, triple 10 bytes, for ISO14443B 4 bytes PUPI, for 15693 8 bytes UID)
+//Expected response: Data+SW1SW2
+//
 var message = new Buffer([0xFF, 0xCA, 0x00, 0x00, 0x00]);
 reader.transmit(message, 40, protocol, function(err, data) {
   if (err) {
     console.log('Error(', reader.name, '):', err);
   } else {
-/* buf.readUIntLE(offset, byteLength[, noAssert])
-Set noAssert to true to skip validation of value and offset. Defaults to false.
-*/
+// buf.readUIntLE(offset, byteLength[, noAssert])
+//Set noAssert to true to skip validation of value and offset. Defaults to false.
+//
 var lastRead = data.readUIntBE(0, 6, true).toString(16);
 var post = {evento: lastRead};
 console.log('Status(', reader.name, '): Read:', data, ' toString:', lastRead);
@@ -92,7 +91,7 @@ pcsc.close();
 pcsc.on('error', function(err) {
   console.log('Error( PCSC ): ', err);
 });
-
+*/
 
 
 io.on('connection', function(socket){
@@ -129,6 +128,38 @@ router.post('/inventory_update',function(req,res){
 
 router.get('/sitemap',function(req,res){
   res.sendFile(path.join(__dirname+'/sitemap.html'));
+});
+
+router.get('/get/1565568270358',function(req,res){
+  var productURL = 'https://6bfd57eed404cfcbfb7c7ca4bcd8a374:920c7c6f4b911fe9d9fddd2d1a6d00a6@hackdays24price.myshopify.com/admin/products/1565568270358.json';
+  request(productURL, function (error, response, body) {
+    io.emit('get_product', response);
+  });
+  res.send();
+});
+
+router.get('/get/1565568335894',function(req,res){
+  var productURL = 'https://6bfd57eed404cfcbfb7c7ca4bcd8a374:920c7c6f4b911fe9d9fddd2d1a6d00a6@hackdays24price.myshopify.com/admin/products/1565568335894.json';
+  request(productURL, function (error, response, body) {
+    io.emit('get_product', response);
+  });
+  res.send();
+});
+
+router.get('/get/1565568368662',function(req,res){
+  var productURL = 'https://6bfd57eed404cfcbfb7c7ca4bcd8a374:920c7c6f4b911fe9d9fddd2d1a6d00a6@hackdays24price.myshopify.com/admin/products/1565568368662.json';
+  request(productURL, function (error, response, body) {
+    io.emit('get_product', response);
+  });
+  res.send();
+});
+
+router.get('/get/1565568434198',function(req,res){
+  var productURL = 'https://6bfd57eed404cfcbfb7c7ca4bcd8a374:920c7c6f4b911fe9d9fddd2d1a6d00a6@hackdays24price.myshopify.com/admin/products/1565568434198.json';
+  request(productURL, function (error, response, body) {
+    io.emit('get_product', response);
+  });
+  res.send();
 });
 
 app.post('messages', (req, res) => {

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="12px" viewBox="0 0 16 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Monotone</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Monotone" fill="#FFFFFF">
+            <path d="M15.707,5.293 L10.707,0.293 C10.316,-0.098 9.684,-0.098 9.293,0.293 C8.902,0.684 8.902,1.316 9.293,1.707 L12.586,5 L1,5 C0.447,5 0,5.448 0,6 C0,6.552 0.447,7 1,7 L12.586,7 L9.293,10.293 C8.902,10.684 8.902,11.316 9.293,11.707 C9.488,11.902 9.744,12 10,12 C10.256,12 10.512,11.902 10.707,11.707 L15.707,6.707 C16.098,6.316 16.098,5.684 15.707,5.293" id="Icon"></path>
+        </g>
+    </g>
+</svg>
